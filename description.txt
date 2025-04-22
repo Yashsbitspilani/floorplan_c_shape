@@ -1,0 +1,25 @@
+We implemented a C‑shaped floorplan generator using the Sequence‑Pair representation and simulated annealing. 
+
+1. **Data Preparation** (`fetch_data.py`):
+   - Define a rectangular outer boundary (rows×cols).
+   - Carve out a rectangular hole on the right side to form a “C” shape.
+   - Specify room shapes as small 0/1 numpy arrays.
+   - Build an adjacency graph of which rooms should touch.
+
+2. **Decoding & Energy** (`visualisation.py`):
+   - `decode_sequence_pair(alpha,beta,tiles)`: longest‑path decoding along two DAGs to assign (x,y) positions.
+   - `touching_pairs()` & `count_bends()`: compute adjacency and shape “bends.”
+   - `energy()`: penalizes missing/extra adjacencies, boundary violations, overlaps, and concave bends.
+
+3. **Simulated Annealing** (`visualisation.py`):
+   - Randomly initialize two permutations (α,β).
+   - At each iteration, swap two elements in α or β.
+   - Accept new state if energy improves or by Metropolis criterion.
+   - Cool temperature by factor 0.995 per step.
+
+4. **Visualization** (`main.py` + `visualisation.py`):
+   - Plot the C‑shaped boundary (outer & hole contours).
+   - Draw each room as a colored rectangle with its identifier.
+   - Automatically scale and display the final layout.
+
+This pipeline ensures that rooms end up within the C‑shape, adhere to desired adjacencies, minimize overlaps, and produce a clean, easily‑interpreted floorplan.
